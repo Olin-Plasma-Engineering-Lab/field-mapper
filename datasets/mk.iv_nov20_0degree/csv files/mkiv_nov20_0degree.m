@@ -25,7 +25,7 @@ channel_width = 11; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 channel_depth = 10; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 % distance from chip - chip length/thickness (all from datasheet) -> measurements taken in center
 % of chip
-dist_from_chipx = 1.76 - 0.48;
+dist_from_chipx = 1.76 - 0.55;
 dist_from_chipz = 10.5 - 1.45;
 
 % x-coordinates - no offsets
@@ -41,8 +41,8 @@ b_field_data = {};
 positions_data = {};
 for i = 1:column_number
     % positions - account for negative movement of the probe into the channel + probe
-    % offset (10.5 - 1.45 mm in z, 1.76 - 0.48 in x); center of chip for z,
-    % x (thickness of sensor is 0.96 mm)
+    % offset (10.5 - 1.45 mm in z, 1.76 - 0.55 in x); center of chip for z,
+    % x (thickness of sensor is 1.1 mm)
 
     % Make position data dimensionless by dividing by channel width and
     % depth (x and z respectively)    
@@ -90,7 +90,7 @@ fitted_model = polyval(fitted_z, mag_sim_z);
 figure;
 % Compute the closest column number at the thruster centerline; based on
 % screen dimensions
-mid_column_position = 8; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
+mid_column_position = 7.5; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 mid_column = round((mid_column_position + (dist_from_chipx * -1) + wall_offset)/col_dist);
 % plot simulated data, fitted curve, and measured data
 plot(positions_data{1, mid_column}(:, 2), b_field_data{1, mid_column}(:, 4), 'bo', 'MarkerSize', 1)
@@ -184,7 +184,7 @@ set(h, 'Color', [0 1 1])
 title('2D Strength Contour + Streamlines Plot')
 subtitle('Z-position vs. X-position, 0 degrees')
 grid on;
-%axis equal;
+axis equal;
 xlabel('X-position (Channel Width Ratio)')
 ylabel('Z-position (Channel Depth Ratio)')
 

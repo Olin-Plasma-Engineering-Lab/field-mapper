@@ -26,8 +26,8 @@ channel_width = 11; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 channel_depth = 10; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 % distance from chip - chip length/thickness (all from datasheet) -> measurements taken in center
 % of chip
-dist_from_chipx = 1.76 - 0.48;
-dist_from_chipz = 10.5 - 1.45;
+dist_from_chipx = 1.76 - 0.55; % in mm;
+dist_from_chipz = 10.5 - 1.45; % in mm;
 
 % x-coordinates - no offsets
 x_coordinates = zeros(1, column_number);
@@ -42,8 +42,8 @@ b_field_data = {};
 positions_data = {};
 for i = 1:column_number
     % positions - account for negative movement of the probe into the channel + probe
-    % offset (10.5 - 1.45 mm in z, 1.76 - 0.48 in x); center of chip for z,
-    % x (thickness of sensor is 0.96 mm)
+    % offset (10.5 - 1.45 mm in z, 1.76 - 0.55 in x); center of chip for z,
+    % x (thickness of sensor is 1.1 mm)
 
     % Make position data dimensionless by dividing by channel width and
     % depth (x and z respectively)    
@@ -73,54 +73,54 @@ end
 
 % Cut down dataset to increase plotting resolution (downsampling)
 data_matrix_cleaned = data_matrix(1:5:14806,:);
-% 
-% % COMSOL 1D data to overlay with measured results
-% comsol_1D = readmatrix(""); % EDIT WITH FILE NAME
-% % transform raw COMSOL data to the ideal reference frame (exit plane = 0)
-% mag_sim_z = (comsol_1D(:, 1) * -1 * 1000 + 10)/channel_depth; % EDIT IF NEEDED, BASED ON RAW DATA
-% 
-% % curve fitting to get a continuous polynomial to represent the simulation
-% fitted_z = polyfit(mag_sim_z, comsol_1D(:, 2), 7);
-% fitted_model = polyval(fitted_z, mag_sim_z);
-% % UNCOMMENT LINE BELOW TO TEST WHICH POLYNOMIAL ORDER FITS BEST
-% %residual = mape(comsol_1D(:, 2), fitted_model)
-% 
-% %PLOTTING%
-% 
-% % 1D B-field plot (magnitude); center of channel
-% figure;
-% % Compute the closest column number at the thruster centerline; based on
-% % screen dimensions
-% mid_column_position = ; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
-% mid_column = round((mid_column_position + (dist_from_chipx * -1) + wall_offset)/col_dist);
-% % plot simulated data, fitted curve, and measured data
-% plot(positions_data{1, mid_column}(:, 2), b_field_data{1, mid_column}(:, 4), 'bo', 'MarkerSize', 1)
-% hold on;
-% plot(mag_sim_z, comsol_1D(:, 2), 'ro', 'MarkerSize', 4)
-% plot(mag_sim_z, fitted_model, 'k')
-% title('1D Magnitude Plot')
-% subtitle('B-Field Strength vs. Z-position from the Exit Plane')
-% xlabel('Position from the Exit Plane (Channel Depth Ratio)')
-% ylabel('Magnetic Field Strength (mT)')
-% xlim([-1 1])
-% ylim([0 30])
-% legend('Measured', 'Simulated', 'Fitted')
-% hold off;
-% 
-% % Compute residuals for 1D magnitude plot
-% figure;
-% z_pos_channel_depth = positions_data{1, mid_column}(:, 2);
-% fit_to_measurement_mT = polyval(fitted_z, z_pos_channel_depth);
-% residuals = b_field_data{1, mid_column}(:, 4) - fit_to_measurement_mT;
-% plot(z_pos_channel_depth, residuals, 'o');
-% title('1D Magnitude Residuals Plot')
-% subtitle('Residuals vs. Z-position from the Exit Plane')
-% xlabel('Position from the Exit Plane (Channel Depth Ratio)')
-% ylabel('B-field Strength Residuals (mT)')
-% hold off;
 
-% 2D vector plot - shows direction of the B-field at points in the HET
-% channel
+% COMSOL 1D data to overlay with measured results
+comsol_1D = readmatrix("1D_mag_sim"); % EDIT WITH FILE NAME
+% transform raw COMSOL data to the ideal reference frame (exit plane = 0)
+mag_sim_z = (comsol_1D(:, 1) * -1 * 1000 + 10)/channel_depth; % EDIT IF NEEDED, BASED ON RAW DATA
+
+% curve fitting to get a continuous polynomial to represent the simulation
+fitted_z = polyfit(mag_sim_z, comsol_1D(:, 2), 7);
+fitted_model = polyval(fitted_z, mag_sim_z);
+% UNCOMMENT LINE BELOW TO TEST WHICH POLYNOMIAL ORDER FITS BEST
+%residual = mape(comsol_1D(:, 2), fitted_model)
+
+%PLOTTING%
+
+% 1D B-field plot (magnitude); center of channel
+figure;
+% Compute the closest column number at the thruster centerline; based on
+% screen dimensions
+mid_column_position = 7.5; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
+mid_column = round((mid_column_position + (dist_from_chipx * -1) + wall_offset)/col_dist);
+% plot simulated data, fitted curve, and measured data
+plot(positions_data{1, mid_column}(:, 2), b_field_data{1, mid_column}(:, 4), 'bo', 'MarkerSize', 1)
+hold on;
+plot(mag_sim_z, comsol_1D(:, 2), 'ro', 'MarkerSize', 4)
+plot(mag_sim_z, fitted_model, 'k')
+title('1D Magnitude Plot')
+subtitle('B-Field Strength vs. Z-position from the Exit Plane')
+xlabel('Position from the Exit Plane (Channel Depth Ratio)')
+ylabel('Magnetic Field Strength (mT)')
+xlim([-1 1])
+ylim([0 30])
+legend('Measured', 'Simulated', 'Fitted')
+hold off;
+
+% Compute residuals for 1D magnitude plot
+figure;
+z_pos_channel_depth = positions_data{1, mid_column}(:, 2);
+fit_to_measurement_mT = polyval(fitted_z, z_pos_channel_depth);
+residuals = b_field_data{1, mid_column}(:, 4) - fit_to_measurement_mT;
+plot(z_pos_channel_depth, residuals, 'o');
+title('1D Magnitude Residuals Plot')
+subtitle('Residuals vs. Z-position from the Exit Plane')
+xlabel('Position from the Exit Plane (Channel Depth Ratio)')
+ylabel('B-field Strength Residuals (mT)')
+hold off;
+
+%2D vector plot - shows direction of the B-field at points in the HET
+%channel
 figure;
 quiver(data_matrix_cleaned(:, 1), data_matrix_cleaned(:, 2), data_matrix_cleaned(:, 3), data_matrix_cleaned(:, 5), 'LineWidth', 0.5)
 title('2D Directionality Plot - HET Channel Cross Section')
@@ -185,7 +185,7 @@ set(h, 'Color', [0 1 1])
 title('2D Strength Contour + Streamlines Plot')
 subtitle('Z-position vs. X-position, 0 degrees')
 grid on;
-%axis equal;
+axis equal;
 xlabel('X-position (Channel Width Ratio)')
 ylabel('Z-position (Channel Depth Ratio)')
 

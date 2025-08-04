@@ -26,7 +26,7 @@ channel_width = ; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 channel_depth = ; % in mm; CHANGE BASED ON THRUSTER DIMENSIONS
 % distance from chip - chip length/thickness (all from datasheet) -> measurements taken in center
 % of chip
-dist_from_chipx = 1.76 - 0.48;
+dist_from_chipx = 1.76 - 0.55;
 dist_from_chipz = 10.5 - 1.45;
 
 % x-coordinates - no offsets
@@ -42,8 +42,8 @@ b_field_data = {};
 positions_data = {};
 for i = 1:column_number
     % positions - account for negative movement of the probe into the channel + probe
-    % offset (10.5 - 1.45 mm in z, 1.76 - 0.48 in x); center of chip for z,
-    % x (thickness of sensor is 0.96 mm)
+    % offset (10.5 - 1.45 mm in z, 1.76 - 0.55 mm in x); center of chip for z,
+    % x (thickness of sensor is 1.1 mm)
 
     % Make position data dimensionless by dividing by channel width and
     % depth (x and z respectively)    
