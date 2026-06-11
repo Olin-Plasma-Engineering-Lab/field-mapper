@@ -43,7 +43,8 @@ sprintf("Average Percent Error: %.2f%%", avg_percent_error)
 
 % plot results
 figure;
-plot(probe_x(1:4, :), percent_error, 'ro');
+plot(probe_x(1:4, :), percent_error, 'ro','MarkerFaceColor', 'r','MarkerEdgeColor', 'r','LineStyle', 'none','LineWidth',2);
+
 grid on;
 xlabel("Axial Position from Exit Plane (mm)");
 ylabel("Percent Error (%)");
