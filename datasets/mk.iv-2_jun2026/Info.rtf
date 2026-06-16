@@ -5,7 +5,7 @@
 \margl1440\margr1440\vieww11520\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 Outer Coil Current: 2.8 A\
+\f0\fs24 \cf0  Outer Coil Current: 2.8 A\
 Inner Coil Current: 5 A\
 \
 Notes:\
@@ -38,4 +38,16 @@ Results look weird, and very stretched out. Turns out the outer coil doesn\'92t 
 \
 My thoughts:\
 \
-I doubt the probe would shit itself mid-map but it is always a possibility. The shielding U is still somewhat present, so I don\'92t think the coil is reversed (simulation matches this explanation). I\'92ve never seen a magnetic short on a field map so I don\'92t know what that looks like, but it\'92s possible this could be it.}
+I doubt the probe would shit itself mid-map but it is always a possibility. The shielding U is still somewhat present, so I don\'92t think the coil is reversed (simulation matches this explanation). I\'92ve never seen a magnetic short on a field map so I don\'92t know what that looks like, but it\'92s possible this could be it.\
+\
+6/16\
+\
+I measured the inductance of the outer coils + em rod to see if there was any internal shorting. Two of the coils read 2 mH, one coil read 1.8 mH, and one coil read 1.7 mH at 1 kHz. Inductance scales with the square of turns. The two weaker coils have a 15% drop in their inductance, which means:\
+\
+- the coils have different amounts of turns, OR\
+- the coils have the same amount of turns, but two are wound worse, OR\
+- two of the coils have an internal short\
+\
+But regardless, this would not explain why I see close to zero flux density at the walls of the screen.\
+\
+}
