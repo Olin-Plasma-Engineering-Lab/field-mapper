@@ -190,16 +190,19 @@ xlabel('X-position (Channel Width Ratio)')
 ylabel('Z-position (Channel Depth Ratio)')
 
 % Plot Channel and Screen Walls as lines (Dimensions in Solidworks)
-x_screen = [0 0 15.12 15.12 17.12 17.12 -2.04 -2.04 0]./channel_width;
+x_screen = [0 0 15 15 17 17 -2 -2 0]./channel_width;
 y_screen = [-3.5 -18.5 -18.5 -3.5 -3.5 -20.5 -20.5 -3.5 -3.5]./channel_depth;
-x_channel = [0 2 2 13.08 13.08 15.12 15.12 0 0]./channel_width;
-y_channel = [0 -3.46 -16.5 -16.5 -3.46 0 -18.5 -18.5 0]./channel_depth;
+x_channel = [0 2 2 13 13 15 15 0 0]./channel_width;
+y_channel = [0 -3.464 -16.5 -16.5 -3.464 0 -18.5 -18.5 0]./channel_depth;
+x_anode = [2 2 13 13 2]./channel_width;
+y_anode = [-16.5 -10.5 -10.5 -16.5 -16.5]./channel_depth;
 % add relevant geometry
 plot(x_screen, y_screen, 'k', 'LineWidth', 1.5)
 plot(x_channel, y_channel, 'r', 'LineWidth', 1.5)
+plot(x_anode, y_anode, 'b', 'LineWidth', 1.5)
 set(gca, 'color', [0.88 0.88 0.88]);
-legend_cust = [plot(nan, 'c'), plot(nan, 'r'), plot(nan, 'k')];
-legend(legend_cust, {'Streamlines', 'HET Channel', 'HET Screen'}, 'location', 'northeastoutside');
+legend_cust = [plot(nan, 'c'), plot(nan, 'r'), plot(nan, 'k'), plot(nan, 'b')];
+legend(legend_cust, {'Streamlines', 'HET Channel', 'HET Screen', 'HET Anode + Diffuser'}, 'location', 'northeastoutside');
 hold off;
 
 
