@@ -75,12 +75,12 @@ end
 data_matrix_cleaned = data_matrix(1:5:14590,:);
 
 % COMSOL 1D data to overlay with measured results
-comsol_1D = readmatrix("comsol_1D.txt"); % EDIT WITH FILE NAME
+comsol_1D = readmatrix("COMSOL_1D.txt"); % EDIT WITH FILE NAME
 % transform raw COMSOL data to the ideal reference frame (exit plane = 0)
 mag_sim_z = (comsol_1D(:, 1) * -1 * 1000 + 10)/channel_depth; % EDIT IF NEEDED, BASED ON RAW DATA
 
 % curve fitting to get a continuous polynomial to represent the simulation
-fitted_z = polyfit(mag_sim_z, comsol_1D(:, 2), 7);
+fitted_z = polyfit(mag_sim_z, comsol_1D(:, 2)*1000, 7); % scale data to mT, not T
 fitted_model = polyval(fitted_z, mag_sim_z);
 % UNCOMMENT LINE BELOW TO TEST WHICH POLYNOMIAL ORDER FITS BEST
 %residual = mape(comsol_1D(:, 2), fitted_model)
@@ -96,7 +96,7 @@ mid_column = round((mid_column_position + (dist_from_chipx * -1) + wall_offset)/
 % plot simulated data, fitted curve, and measured data
 plot(positions_data{1, mid_column}(:, 2), b_field_data{1, mid_column}(:, 4), 'bo', 'MarkerSize', 1)
 hold on;
-plot(mag_sim_z, comsol_1D(:, 2), 'ro', 'MarkerSize', 4)
+plot(mag_sim_z, comsol_1D(:, 2)*1000, 'ro', 'MarkerSize', 4)
 plot(mag_sim_z, fitted_model, 'k')
 title('1D Magnitude Plot')
 subtitle('B-Field Strength vs. Z-position from the Exit Plane')
